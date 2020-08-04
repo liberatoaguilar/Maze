@@ -1,5 +1,8 @@
 let b3s1234Button = document.getElementById("b3s1234");
 let b3s12345Button = document.getElementById("b3s12345");
+let copyright = document.getElementById("copyright");
+copyright.style.top = document.body.clientHeight-copyright.clientHeight;
+
 let current = 1;
 let finished = true;
 
