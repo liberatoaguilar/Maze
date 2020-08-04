@@ -14,7 +14,7 @@ table {
   border-collapse: collapse;
 }
 #selections {
-  margin-bottom: 100;
+  margin-bottom: 70;
 }
 th {
   font-size: 40;
@@ -34,4 +34,9 @@ body {
 }
 [selected="1"] {
   background-color: black;
+}
+#copyright {
+  position: absolute;
+  top: 92.5vh;
+  width: 100vw;
 }
