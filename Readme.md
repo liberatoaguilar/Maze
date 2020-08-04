@@ -1,4 +1,4 @@
-# Maze generator algorithms
+# Maze Algorithms
 
 ## Visit https://liberatoaguilar.github.io/Maze/Maze.html to see the demonstrations!
 
