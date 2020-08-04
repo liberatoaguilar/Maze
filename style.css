@@ -1,9 +1,37 @@
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
 button {
   margin: 30px;
+}
+#wrap {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+table {
+  text-align: center;
+  font-family: helvetica;
+  color: white;
+  width: 100vw;
+  border-collapse: collapse;
+}
+#selections {
+  margin-bottom: 100;
+}
+th {
+  font-size: 40;
+  background-color: #002d79;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+td {
+  font-size: 20;
+  background-color: #002d79;
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+[selected="1"] {
+  background-color: black;
 }
