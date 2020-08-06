@@ -1,5 +1,6 @@
 let b3s1234Button = document.getElementById("b3s1234");
 let b3s12345Button = document.getElementById("b3s12345");
+let recursiveBackButton = document.getElementById("recursiveBacktracker");
 let copyright = document.getElementById("copyright");
 copyright.style.top = document.body.clientHeight-copyright.clientHeight;
 let menu = document.getElementById("menu");
@@ -270,12 +271,90 @@ function b3s12345() {
   updateState(grids);
 }
 
+function recursiveBacktracker() {
+  const SIZEY = 10;
+  const SIZEX = 10;
+
+  current = 3;
+
+  let grids = document.querySelector("#grid");
+  for (let child of Array.from(grids.children)){
+    grids.removeChild(child);
+  }
+  let nextGen = document.querySelector("button");
+
+  function createChecks() {
+    for (let i = 0; i < SIZEY; i++){
+      let newRow = document.createElement("div");
+          for (let x = 0; x < SIZEX; x++){
+            let newCheck = document.createElement("input");
+            newCheck.type = "checkbox";
+            newCheck.checked = true;
+            newCheck.setAttribute("xCoord",x.toString());
+            newCheck.setAttribute("yCoord",i.toString());
+            newCheck.setAttribute("visited","0");
+            newRow.appendChild(newCheck);
+          }
+      grids.appendChild(newRow);
+    }
+    return;
+  }
+
+  function testValid(x,y,direction) {
+    let getCheck;
+    if (direction == 1) getCheck = document.querySelectorAll('input[xCoord="'+(x-1).toString()+'"][yCoord="'+y.toString()+'"]');
+    else if (direction == 2) getCheck = document.querySelectorAll('input[xCoord="'+x.toString()+'"][yCoord="'+(y+1).toString()+'"]');
+    else if (direction == 3) getCheck = document.querySelectorAll('input[xCoord="'+(x+1).toString()+'"][yCoord="'+y.toString()+'"]');
+    else if (direction == 4) getCheck = document.querySelectorAll('input[xCoord="'+x.toString()+'"][yCoord="'+(y-1).toString()+'"]');
+    if (Array.from(getCheck).length == 0) return false;
+
+    let nextCheck = getCheck[0];
+    if (nextCheck.getAttribute("visited") == "1") return false;
+
+    if (nextCheck.checked == false) return false;
+
+    if (nextCheck.checked) return true;
+  }
+
+  function carvePath(x,y) {
+    let currentCheck = document.querySelector('input[xCoord="'+x.toString()+'"][yCoord="'+y.toString()+'"]');
+    if (currentCheck.checked) currentCheck.checked = false;
+    currentCheck.setAttribute("visited","1");
+    let xCoord = Number(currentCheck.getAttribute("xCoord"));
+    let yCoord = Number(currentCheck.getAttribute("yCoord"));
+    let direction = Math.floor(Math.random() * 4) + 1;
+    console.log(direction);
+    // doesnt work 
+    if (direction == 1 && testValid(xCoord,yCoord,direction)) {
+      carvePath(xCoord-1,yCoord);
+    } else carvePath(xCoord,yCoord);
+    if (direction == 2 && testValid(xCoord,yCoord,direction)) {
+      carvePath(xCoord,yCoord+1);
+    } else carvePath(xCoord,yCoord);
+    if (direction == 3 && testValid(xCoord,yCoord,direction)) {
+      carvePath(xCoord+1,yCoord);
+    } else carvePath(xCoord,yCoord);
+    if (direction == 4 && testValid(xCoord,yCoord,direction)) {
+      carvePath(xCoord,yCoord-1);
+    } else {
+      finsihed = true;
+    }
+  }
+
+  nextGen.addEventListener("click",() => {
+    finished = false;
+    carvePath(0,0);
+  });
+  createChecks();
+}
+
 b3s1234();
 
 b3s1234Button.addEventListener('click',() => {
   if (current != 1 && finished) {
     b3s1234Button.setAttribute("selected","1");
     b3s12345Button.setAttribute("selected","0");
+    recursiveBackButton.setAttribute("selected","0");
     b3s1234();
   }
 });
@@ -284,6 +363,16 @@ b3s12345Button.addEventListener('click',() => {
   if (current != 2 && finished) {
     b3s12345Button.setAttribute("selected","1");
     b3s1234Button.setAttribute("selected","0");
+    recursiveBackButton.setAttribute("selected","0");
     b3s12345();
+  }
+});
+
+recursiveBackButton.addEventListener('click', () => {
+  if (current != 3 && finished) {
+    b3s12345Button.setAttribute("selected","0");
+    b3s1234Button.setAttribute("selected","0");
+    recursiveBackButton.setAttribute("selected","1");
+    recursiveBacktracker();
   }
 });
