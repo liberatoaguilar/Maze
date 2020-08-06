@@ -2,6 +2,10 @@ let b3s1234Button = document.getElementById("b3s1234");
 let b3s12345Button = document.getElementById("b3s12345");
 let copyright = document.getElementById("copyright");
 copyright.style.top = document.body.clientHeight-copyright.clientHeight;
+let menu = document.getElementById("menu");
+for (let child of Array.from(menu.children)) {
+  child.style.width = document.body.clientWidth/Array.from(menu.children).length;
+}
 
 let current = 1;
 let finished = true;
