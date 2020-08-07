@@ -447,17 +447,18 @@ function recursiveBacktracker() {
               break;
             } else continue;
           }
+          finished = true;
+          nextGen.removeEventListener("click",start);
           console.log('done');
-          finshed = true;
         }
       }
     },10);
   }
-
-  nextGen.addEventListener("click",() => {
+  function start() {
     finished = false;
     carvePath(1,1);
-  });
+  }
+  nextGen.addEventListener("click",start);
   createChecks();
 }
 
