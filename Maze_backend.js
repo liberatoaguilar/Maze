@@ -278,8 +278,6 @@ function recursiveBacktracker() {
   current = 3;
 
   let history = [];
-  let finalDir = [];
-  let opposites = {1:3,2:4,3:1,4:2};
 
   let grids = document.querySelector("#grid");
   for (let child of Array.from(grids.children)){
@@ -313,7 +311,9 @@ function recursiveBacktracker() {
     if (getCheck == undefined) return false;
     if (Array.from(getCheck).length == 0) return false;
 
+
     let nextCheck = getCheck[0];
+    if (nextCheck.disabled) return false;
     if (nextCheck.getAttribute("visited") == "1") return false;
 
     if (nextCheck.checked == false) return false;
@@ -353,11 +353,6 @@ function recursiveBacktracker() {
       }
     }
 
-    // let nextCheck = getCheck[0];
-    // // if (nextCheck.getAttribute("visited") == "1") return false;
-    // //
-    // if (nextCheck.checked == false) return false;
-    finalDir.unshift(direction);
     if (nextCheck.checked) return true;
   }
 
@@ -414,10 +409,24 @@ function recursiveBacktracker() {
         }
         else {
           currentCheck.checked = true;
-          history.pop();
           for (let i = 0; i < history.length; i++) {
             let hxCoord = Number(history[i].getAttribute("xCoord"));
             let hyCoord = Number(history[i].getAttribute("yCoord"));
+            if (!history[i].checked) {
+              history[i].checked = true;
+              history[i].disabled = true;
+            }
+            if (hxCoord == 1 && hyCoord == 1) {
+              console.log('actually done');
+              finished = true;
+              nextGen.removeEventListener("click",start);
+              let path = document.querySelectorAll('input:disabled');
+              for (let input of path) {
+                input.checked = false;
+                input.disabled = false;
+              }
+              break;
+            }
             if (testValid(hxCoord,hyCoord,array[0])) {
               if (array[0] == 1) carvePath(hxCoord,hyCoord-1);
               else if (array[0] == 2) carvePath(hxCoord+1,hyCoord);
@@ -447,9 +456,6 @@ function recursiveBacktracker() {
               break;
             } else continue;
           }
-          finished = true;
-          nextGen.removeEventListener("click",start);
-          console.log('done');
         }
       }
     },10);
