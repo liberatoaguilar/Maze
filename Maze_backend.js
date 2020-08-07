@@ -272,10 +272,12 @@ function b3s12345() {
 }
 
 function recursiveBacktracker() {
-  const SIZEY = 10;
-  const SIZEX = 10;
+  const SIZEY = 24;
+  const SIZEX = 24;
 
   current = 3;
+
+  let history = [];
 
   let grids = document.querySelector("#grid");
   for (let child of Array.from(grids.children)){
@@ -302,48 +304,121 @@ function recursiveBacktracker() {
 
   function testValid(x,y,direction) {
     let getCheck;
-    if (direction == 1) getCheck = document.querySelectorAll('input[xCoord="'+(x-1).toString()+'"][yCoord="'+y.toString()+'"]');
-    else if (direction == 2) getCheck = document.querySelectorAll('input[xCoord="'+x.toString()+'"][yCoord="'+(y+1).toString()+'"]');
-    else if (direction == 3) getCheck = document.querySelectorAll('input[xCoord="'+(x+1).toString()+'"][yCoord="'+y.toString()+'"]');
-    else if (direction == 4) getCheck = document.querySelectorAll('input[xCoord="'+x.toString()+'"][yCoord="'+(y-1).toString()+'"]');
+    if (direction == 1) getCheck = document.querySelectorAll('input[xCoord="'+x.toString()+'"][yCoord="'+(y-1).toString()+'"]');
+    else if (direction == 2) getCheck = document.querySelectorAll('input[xCoord="'+(x+1).toString()+'"][yCoord="'+y.toString()+'"]');
+    else if (direction == 3) getCheck = document.querySelectorAll('input[xCoord="'+x.toString()+'"][yCoord="'+(y+1).toString()+'"]');
+    else if (direction == 4) getCheck = document.querySelectorAll('input[xCoord="'+(x-1).toString()+'"][yCoord="'+y.toString()+'"]');
     if (Array.from(getCheck).length == 0) return false;
 
     let nextCheck = getCheck[0];
-    if (nextCheck.getAttribute("visited") == "1") return false;
+    // if (nextCheck.getAttribute("visited") == "1") return false;
 
     if (nextCheck.checked == false) return false;
+
+    let getWall;
+    if (direction == 1) getWall = document.querySelectorAll('input[xCoord="'+x.toString()+'"][yCoord="'+(y-2).toString()+'"]');
+    else if (direction == 2) getWall = document.querySelectorAll('input[xCoord="'+(x+2).toString()+'"][yCoord="'+y.toString()+'"]');
+    else if (direction == 3) getWall = document.querySelectorAll('input[xCoord="'+x.toString()+'"][yCoord="'+(y+2).toString()+'"]');
+    else if (direction == 4) getWall = document.querySelectorAll('input[xCoord="'+(x-2).toString()+'"][yCoord="'+y.toString()+'"]');
+    if (Array.from(getWall).length == 0) return false;
+    else {
+      let wall = getWall[0];
+      if (wall.checked == false) {
+        return false;
+      }
+      else {
+        if (direction == 1) {
+          let wall1 = document.querySelector('input[xCoord="'+(x-1).toString()+'"][yCoord="'+(y-1).toString()+'"]').checked;
+          let wall2 = document.querySelector('input[xCoord="'+(x+1).toString()+'"][yCoord="'+(y-1).toString()+'"]').checked;
+          if (!wall1 || !wall2) return false;
+        }
+        else if (direction == 2) {
+          let wall1 = document.querySelector('input[xCoord="'+(x+1).toString()+'"][yCoord="'+(y-1).toString()+'"]').checked;
+          let wall2 = document.querySelector('input[xCoord="'+(x+1).toString()+'"][yCoord="'+(y+1).toString()+'"]').checked;
+          if (!wall1 || !wall2) return false;
+        }
+        else if (direction == 3) {
+          let wall1 = document.querySelector('input[xCoord="'+(x-1).toString()+'"][yCoord="'+(y+1).toString()+'"]').checked;
+          let wall2 = document.querySelector('input[xCoord="'+(x+1).toString()+'"][yCoord="'+(y+1).toString()+'"]').checked;
+          if (!wall1 || !wall2) return false;
+        }
+        else if (direction == 4) {
+          let wall1 = document.querySelector('input[xCoord="'+(x-1).toString()+'"][yCoord="'+(y-1).toString()+'"]').checked;
+          let wall2 = document.querySelector('input[xCoord="'+(x-1).toString()+'"][yCoord="'+(y+1).toString()+'"]').checked;
+          if (!wall1 || !wall2) return false;
+        }
+      }
+    }
+
+    // let nextCheck = getCheck[0];
+    // // if (nextCheck.getAttribute("visited") == "1") return false;
+    // //
+    // if (nextCheck.checked == false) return false;
 
     if (nextCheck.checked) return true;
   }
 
   function carvePath(x,y) {
-    let currentCheck = document.querySelector('input[xCoord="'+x.toString()+'"][yCoord="'+y.toString()+'"]');
-    if (currentCheck.checked) currentCheck.checked = false;
-    currentCheck.setAttribute("visited","1");
-    let xCoord = Number(currentCheck.getAttribute("xCoord"));
-    let yCoord = Number(currentCheck.getAttribute("yCoord"));
-    let direction = Math.floor(Math.random() * 4) + 1;
-    console.log(direction);
-    // doesnt work 
-    if (direction == 1 && testValid(xCoord,yCoord,direction)) {
-      carvePath(xCoord-1,yCoord);
-    } else carvePath(xCoord,yCoord);
-    if (direction == 2 && testValid(xCoord,yCoord,direction)) {
-      carvePath(xCoord,yCoord+1);
-    } else carvePath(xCoord,yCoord);
-    if (direction == 3 && testValid(xCoord,yCoord,direction)) {
-      carvePath(xCoord+1,yCoord);
-    } else carvePath(xCoord,yCoord);
-    if (direction == 4 && testValid(xCoord,yCoord,direction)) {
-      carvePath(xCoord,yCoord-1);
-    } else {
-      finsihed = true;
-    }
+    setTimeout(() => {
+      let currentCheck = document.querySelector('input[xCoord="'+x.toString()+'"][yCoord="'+y.toString()+'"]');
+      if (currentCheck.checked) currentCheck.checked = false;
+      currentCheck.setAttribute("visited","1");
+      history.shift(currentCheck);
+      let xCoord = Number(currentCheck.getAttribute("xCoord"));
+      let yCoord = Number(currentCheck.getAttribute("yCoord"));
+      let direction = Math.floor(Math.random() * 4) + 1;
+      if (testValid(xCoord,yCoord,direction)) {
+        if (direction == 1) {
+          carvePath(xCoord,yCoord-1);
+        } else if (direction == 2) {
+          carvePath(xCoord+1,yCoord);
+        } else if (direction == 3) {
+          carvePath(xCoord,yCoord)+1;
+        } else if (direction == 4) {
+          carvePath(xCoord-1,yCoord);
+        }
+      } else {
+        let array = [1,2,3,4];
+        for (let i = array.length-1; i > 0; i--) {
+          const j = Math.floor(Math.random() * i);
+          const temp = array[i];
+          array[i] = array[j];
+          array[j] = temp;
+        }
+        if (testValid(xCoord,yCoord,array[0])) {
+          if (array[0] == 1) carvePath(xCoord,yCoord-1);
+          else if (array[0] == 2) carvePath(xCoord+1,yCoord);
+          else if (array[0] == 3) carvePath(xCoord,yCoord+1);
+          else if (array[0] == 4) carvePath(xCoord-1,yCoord);
+        }
+        else if (testValid(xCoord,yCoord,array[1])) {
+          if (array[1] == 1) carvePath(xCoord,yCoord-1);
+          else if (array[1] == 2) carvePath(xCoord+1,yCoord);
+          else if (array[1] == 3) carvePath(xCoord,yCoord+1);
+          else if (array[1] == 4) carvePath(xCoord-1,yCoord);
+        }
+        else if (testValid(xCoord,yCoord,array[2])) {
+          if (array[2] == 1) carvePath(xCoord,yCoord-1);
+          else if (array[2] == 2) carvePath(xCoord+1,yCoord);
+          else if (array[2] == 3) carvePath(xCoord,yCoord+1);
+          else if (array[2] == 4) carvePath(xCoord-1,yCoord);
+        }
+        else if (testValid(xCoord,yCoord,array[3])) {
+          if (array[3] == 1) carvePath(xCoord,yCoord-1);
+          else if (array[3] == 2) carvePath(xCoord+1,yCoord);
+          else if (array[3] == 3) carvePath(xCoord,yCoord+1);
+          else if (array[3] == 4) carvePath(xCoord-1,yCoord);
+        }
+        else {
+          console.log(xCoord,yCoord,'backtrack');
+        }
+      }
+    },100);
   }
 
   nextGen.addEventListener("click",() => {
     finished = false;
-    carvePath(0,0);
+    carvePath(1,1);
   });
   createChecks();
 }
