@@ -15,7 +15,7 @@
 - These mazes are very straight-edged and not always solvable.
 - More information: https://en.wikipedia.org/wiki/Maze_generation_algorithm#Cellular_automaton_algorithms.
 
-### Recursive Backtracker
+### Recursive Backtracking
 
 - Begins with one cell and chooses a random direction to carve out a maze path.
 - The function calls itself recursively until there are no valid cells to carve into.
