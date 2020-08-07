@@ -8,7 +8,7 @@ for (let child of Array.from(menu.children)) {
   child.style.width = document.body.clientWidth/Array.from(menu.children).length;
 }
 
-let current = 1;
+let current = 3;
 let finished = true;
 
 function b3s1234() {
@@ -468,7 +468,7 @@ function recursiveBacktracker() {
   createChecks();
 }
 
-b3s1234();
+recursiveBacktracker();
 
 b3s1234Button.addEventListener('click',() => {
   if (current != 1 && finished) {
