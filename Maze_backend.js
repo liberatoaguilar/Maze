@@ -273,7 +273,7 @@ function b3s12345() {
 
 function recursiveBacktracker() {
   const SIZEY = 24;
-  const SIZEX = 24;
+  const SIZEX = 41;
 
   current = 3;
 
