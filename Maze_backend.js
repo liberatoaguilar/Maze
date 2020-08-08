@@ -496,3 +496,7 @@ recursiveBackButton.addEventListener('click', () => {
     recursiveBacktracker();
   }
 });
+
+window.addEventListener("resize", () => {
+  copyright.style.top = document.body.clientHeight-copyright.clientHeight;
+});
