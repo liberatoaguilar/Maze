@@ -504,8 +504,10 @@ function kruskals() {
               newCheck.setAttribute("set",count.toString());
               let newSet = new Set([count]);
               sets.push(newSet);
-              newCheck.checked = false;
+              //newCheck.checked = false;
               count++;
+            } else if (x == 0 || x == SIZEX-1 || i == 0 || i == SIZEY-1){
+              newCheck.setAttribute("set","border");
             } else newCheck.setAttribute("set","wall");
             newRow.appendChild(newCheck);
           }
@@ -514,8 +516,73 @@ function kruskals() {
     return;
   }
 
+  function test(x,y,dir) {
+    let newCheck;
+    if (dir == 1) newCheck = document.querySelector('[xCoord="'+x.toString()+'"][yCoord="'+(y-1).toString()+'"]');
+    if (dir == 2) newCheck = document.querySelector('[xCoord="'+(x+1).toString()+'"][yCoord="'+y.toString()+'"]');
+    if (dir == 3) newCheck = document.querySelector('[xCoord="'+x.toString()+'"][yCoord="'+(y+1).toString()+'"]');
+    if (dir == 4) newCheck = document.querySelector('[xCoord="'+(x-1).toString()+'"][yCoord="'+y.toString()+'"]');
+
+    if (newCheck == undefined) return [false];
+    if (newCheck.getAttribute("set") == "border") return [false];
+    if (newCheck.checked = false) return [false];
+
+    if (dir == 1) newCheck2 = document.querySelector('[xCoord="'+x.toString()+'"][yCoord="'+(y-2).toString()+'"]');
+    if (dir == 2) newCheck2 = document.querySelector('[xCoord="'+(x+2).toString()+'"][yCoord="'+y.toString()+'"]');
+    if (dir == 3) newCheck2 = document.querySelector('[xCoord="'+x.toString()+'"][yCoord="'+(y+2).toString()+'"]');
+    if (dir == 4) newCheck2 = document.querySelector('[xCoord="'+(x-2).toString()+'"][yCoord="'+y.toString()+'"]');
+
+    if (Number(newCheck2.getAttribute("set")) == undefined) return [false];
+
+    return [true,Number(newCheck2.getAttribute("set")),newCheck,newCheck2];
+  }
+
+  function selectSets() {
+    setTimeout(() => {
+      let dirs = [1,2,3,4];
+      let dir = dirs[Math.floor(Math.random() * dirs.length)];
+      let currentSet = sets[Math.floor(Math.random() * sets.length)];
+      let it = currentSet.values();
+      let first = it.next();
+      currentSet = first.value;
+      let currentCheck = document.querySelector('[set="'+currentSet.toString()+'"]');
+      let xCoord = Number(currentCheck.getAttribute("xCoord"));
+      let yCoord = Number(currentCheck.getAttribute("yCoord"));
+
+      if (sets.length > 1) {
+        if (test(xCoord,yCoord,dir)[0]) {
+          let oldValue = Number(currentCheck.getAttribute("set"));
+          let value = test(xCoord,yCoord,dir)[1];
+
+          let newsets = [];
+          for (let set of sets) {
+            if (!set.has(oldValue)) newsets.push(set);
+          }
+          sets = newsets;
+
+          currentCheck.checked = false;
+          test(xCoord,yCoord,dir)[2].checked = false;
+          test(xCoord,yCoord,dir)[3].checked = false;
+
+          currentCheck.setAttribute("set",value);
+          test(xCoord,yCoord,dir)[2].setAttribute("set",value);
+          test(xCoord,yCoord,dir)[3].setAttribute("set",value);
+
+          selectSets();
+
+        } else {
+          selectSets();
+        }
+      } else {
+        finished = true;
+        console.log('done');
+      }
+    },50);
+  }
+
   function startKruskals() {
     finished = false;
+    selectSets();
   }
   nextGen.addEventListener("click",startKruskals);
   createChecks();
