@@ -24,3 +24,12 @@
 - When there are no possible moves left for the entire grid the program is finished and the result is a solvable maze.
 - This maze algorithm generates winding paths in the mazes.
 - More information: https://weblog.jamisbuck.org/2010/12/27/maze-generation-recursive-backtracking.
+
+### Kruskal's Algorithm
+
+- Chooses a random cell and direction, then removes a wall in that direction.
+- This creates a group of cells called a set.
+- When two cells combine they become one set.
+- The process is repeated until there is only one set left, meaning that there is a solution to the maze.
+- This algorithm creates square mazes that have the traditional "maze" look.
+- More information: http://weblog.jamisbuck.org/2011/1/3/maze-generation-kruskal-s-algorithm.
