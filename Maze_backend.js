@@ -1,6 +1,9 @@
 let b3s1234Button = document.getElementById("b3s1234");
 let b3s12345Button = document.getElementById("b3s12345");
 let recursiveBackButton = document.getElementById("recursiveBacktracker");
+let kruskalsButton = document.getElementById("kruskals");
+
+let wrap = document.getElementById("wrap");
 let copyright = document.getElementById("copyright");
 copyright.style.top = document.body.clientHeight-copyright.clientHeight;
 let menu = document.getElementById("menu");
@@ -468,6 +471,56 @@ function recursiveBacktracker() {
   createChecks();
 }
 
+function kruskals() {
+  const SIZEY = 23;
+  const SIZEX = 41;
+
+  current = 4;
+  let sets = [];
+
+  let grids = document.querySelector("#grid");
+  for (let child of Array.from(grids.children)){
+    grids.removeChild(child);
+  }
+  let oldNextGen = document.querySelector("button");
+  wrap.removeChild(oldNextGen);
+  let nextGen = document.createElement("button");
+  nextGen.setAttribute("id","next");
+  nextGen.appendChild(document.createTextNode("Go"));
+  wrap.appendChild(nextGen);
+
+
+  function createChecks() {
+    let count = 0;
+    for (let i = 0; i < SIZEY; i++){
+      let newRow = document.createElement("div");
+          for (let x = 0; x < SIZEX; x++){
+            let newCheck = document.createElement("input");
+            newCheck.type = "checkbox";
+            newCheck.checked = true;
+            newCheck.setAttribute("xCoord",x.toString());
+            newCheck.setAttribute("yCoord",i.toString());
+            if (x % 2 != 0 && (x > 0 && x < SIZEX-1) && (i > 0 && i < SIZEY-1) && i % 2 != 0) {
+              newCheck.setAttribute("set",count.toString());
+              let newSet = new Set([count]);
+              sets.push(newSet);
+              newCheck.checked = false;
+              count++;
+            } else newCheck.setAttribute("set","wall");
+            newRow.appendChild(newCheck);
+          }
+      grids.appendChild(newRow);
+    }
+    return;
+  }
+
+  function startKruskals() {
+    finished = false;
+  }
+  nextGen.addEventListener("click",startKruskals);
+  createChecks();
+}
+
 recursiveBacktracker();
 
 b3s1234Button.addEventListener('click',() => {
@@ -475,6 +528,7 @@ b3s1234Button.addEventListener('click',() => {
     b3s1234Button.setAttribute("selected","1");
     b3s12345Button.setAttribute("selected","0");
     recursiveBackButton.setAttribute("selected","0");
+    kruskalsButton.setAttribute("selected","0");
     b3s1234();
   }
 });
@@ -484,6 +538,7 @@ b3s12345Button.addEventListener('click',() => {
     b3s12345Button.setAttribute("selected","1");
     b3s1234Button.setAttribute("selected","0");
     recursiveBackButton.setAttribute("selected","0");
+    kruskalsButton.setAttribute("selected","0");
     b3s12345();
   }
 });
@@ -492,8 +547,19 @@ recursiveBackButton.addEventListener('click', () => {
   if (current != 3 && finished) {
     b3s12345Button.setAttribute("selected","0");
     b3s1234Button.setAttribute("selected","0");
+    kruskalsButton.setAttribute("selected","0");
     recursiveBackButton.setAttribute("selected","1");
     recursiveBacktracker();
+  }
+});
+
+kruskalsButton.addEventListener('click', () => {
+  if (current != 4 && finished) {
+    b3s12345Button.setAttribute("selected","0");
+    b3s1234Button.setAttribute("selected","0");
+    recursiveBackButton.setAttribute("selected","0");
+    kruskalsButton.setAttribute("selected","1");
+    kruskals();
   }
 });
 
