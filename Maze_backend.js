@@ -16,14 +16,9 @@ let finished = true;
 
 function b3s1234() {
   current = 1;
-  // const SIZEY = 44;
-  // const SIZEX = 88;
-  // const SIZEY = 12;
-  // const SIZEX = 21;
-  const SIZEY = 24;
-  const SIZEX = 42;
-  // const SIZEY = 30;
-  // const SIZEX = 30;
+
+  const SIZEY = 23;
+  const SIZEX = 41;
 
   const FILL = 20;
 
@@ -146,14 +141,9 @@ function b3s1234() {
 
 function b3s12345() {
   current = 2;
-  // const SIZEY = 44;
-  // const SIZEX = 88;
-  // const SIZEY = 12;
-  // const SIZEX = 21;
-  const SIZEY = 24;
-  const SIZEX = 42;
-  // const SIZEY = 30;
-  // const SIZEX = 30;
+
+  const SIZEY = 23;
+  const SIZEX = 41;
 
   const FILL = 20;
 
@@ -275,7 +265,7 @@ function b3s12345() {
 }
 
 function recursiveBacktracker() {
-  const SIZEY = 24;
+  const SIZEY = 23;
   const SIZEX = 41;
 
   current = 3;
@@ -502,9 +492,7 @@ function kruskals() {
             newCheck.setAttribute("yCoord",i.toString());
             if (x % 2 != 0 && (x > 0 && x < SIZEX-1) && (i > 0 && i < SIZEY-1) && i % 2 != 0) {
               newCheck.setAttribute("set",count.toString());
-              let newSet = new Set([count]);
-              sets.push(newSet);
-              //newCheck.checked = false;
+              sets.push(count);
               count++;
             } else if (x == 0 || x == SIZEX-1 || i == 0 || i == SIZEY-1){
               newCheck.setAttribute("set","border");
@@ -542,9 +530,6 @@ function kruskals() {
       let dirs = [1,2,3,4];
       let dir = dirs[Math.floor(Math.random() * dirs.length)];
       let currentSet = sets[Math.floor(Math.random() * sets.length)];
-      let it = currentSet.values();
-      let first = it.next();
-      currentSet = first.value;
       let currentCheck = document.querySelector('[set="'+currentSet.toString()+'"]');
       let xCoord = Number(currentCheck.getAttribute("xCoord"));
       let yCoord = Number(currentCheck.getAttribute("yCoord"));
@@ -554,11 +539,13 @@ function kruskals() {
           let oldValue = Number(currentCheck.getAttribute("set"));
           let value = test(xCoord,yCoord,dir)[1];
 
-          let newsets = [];
-          for (let set of sets) {
-            if (!set.has(oldValue)) newsets.push(set);
+          if (oldValue != value) {
+            let newsets = [];
+            for (let set of sets) {
+              if (set != oldValue) newsets.push(set);
+            }
+            sets = newsets;
           }
-          sets = newsets;
 
           currentCheck.checked = false;
           test(xCoord,yCoord,dir)[2].checked = false;
@@ -567,6 +554,10 @@ function kruskals() {
           currentCheck.setAttribute("set",value);
           test(xCoord,yCoord,dir)[2].setAttribute("set",value);
           test(xCoord,yCoord,dir)[3].setAttribute("set",value);
+
+          for (let check of document.querySelectorAll('[set="'+oldValue.toString()+'"]')) {
+            check.setAttribute("set",value.toString());
+          }
 
           selectSets();
 
@@ -577,7 +568,7 @@ function kruskals() {
         finished = true;
         console.log('done');
       }
-    },50);
+    },30);
   }
 
   function startKruskals() {
