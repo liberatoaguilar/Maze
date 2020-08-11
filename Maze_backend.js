@@ -585,6 +585,8 @@ function prims() {
   const SIZEX = 41;
 
   current = 5;
+  let firstSet = 1;
+  let sets = [];
 
   let grids = document.querySelector("#grid");
   for (let child of Array.from(grids.children)){
@@ -598,6 +600,7 @@ function prims() {
   wrap.appendChild(nextGen);
 
   function createChecks() {
+    let count = 0;
     for (let i = 0; i < SIZEY; i++){
       let newRow = document.createElement("div");
           for (let x = 0; x < SIZEX; x++){
@@ -606,7 +609,9 @@ function prims() {
             newCheck.checked = true;
             newCheck.setAttribute("xCoord",x.toString());
             newCheck.setAttribute("yCoord",i.toString());
-            newCheck.setAttribute("visited","0");
+            if (x == 0 || x == SIZEX-1 || i == 0 || i == SIZEY-1){
+              newCheck.setAttribute("set","border");
+            } else newCheck.setAttribute("set","none");
             newRow.appendChild(newCheck);
           }
       grids.appendChild(newRow);
@@ -614,12 +619,118 @@ function prims() {
     return;
   }
 
-  function chooseAndExpand() {
+  function checkNorth(x,y) {
+    let connectCheck;
+    let check = document.querySelector('[xCoord="'+x.toString()+'"][yCoord="'+(y-2).toString()+'"]');
+    if (check && check.getAttribute('set') == firstSet.toString()) {
+      connectCheck = document.querySelector('[xCoord="'+x.toString()+'"][yCoord="'+(y-1).toString()+'"]');
+      connectCheck.setAttribute("set",firstSet);
+      connectCheck.checked = false;
+      return true;
+    }
+    return false;
+  }
 
+  function checkEast(x,y) {
+    let connectCheck;
+    let check = document.querySelector('[xCoord="'+(x+2).toString()+'"][yCoord="'+y.toString()+'"]');
+    if (check && check.getAttribute('set') == firstSet.toString()) {
+      connectCheck = document.querySelector('[xCoord="'+(x+1).toString()+'"][yCoord="'+y.toString()+'"]');
+      connectCheck.setAttribute("set",firstSet);
+      connectCheck.checked = false;
+      return true;
+    }
+    return false;
+  }
+
+  function checkSouth(x,y) {
+    let connectCheck;
+    let check = document.querySelector('[xCoord="'+x.toString()+'"][yCoord="'+(y+2).toString()+'"]');
+    if (check && check.getAttribute('set') == firstSet.toString()) {
+      connectCheck = document.querySelector('[xCoord="'+x.toString()+'"][yCoord="'+(y+1).toString()+'"]');
+      connectCheck.setAttribute("set",firstSet);
+      connectCheck.checked = false;
+      return true;
+    }
+    return false;
+  }
+
+  function checkWest(x,y) {
+    let connectCheck;
+    let check = document.querySelector('[xCoord="'+(x-2).toString()+'"][yCoord="'+y.toString()+'"]');
+    if (check && check.getAttribute('set') == firstSet.toString()) {
+      connectCheck = document.querySelector('[xCoord="'+(x-1).toString()+'"][yCoord="'+y.toString()+'"]');
+      connectCheck.setAttribute("set",firstSet);
+      connectCheck.checked = false;
+      return true;
+    }
+    return false;
+  }
+
+  function chooseAndExpand() {
+    setTimeout(() => {
+      let allFrontiers = Array.from(document.querySelectorAll('[set="frontier"]'));
+      if (allFrontiers.length < 1) finished = true;
+      if (!finished) {
+        for (let frontier of allFrontiers) {
+          frontier.checked = true;
+          frontier.disabled = true;
+        }
+
+        let frontierCheck = allFrontiers[Math.floor(Math.random() * allFrontiers.length)];
+        frontierCheck.checked = false;
+        frontierCheck.disabled = false;
+        frontierCheck.setAttribute("set",firstSet);
+
+        let array = [checkNorth,checkEast,checkSouth,checkWest];
+        for (let i = array.length-1; i > 0; i--) {
+          const j = Math.floor(Math.random() * i);
+          const temp = array[i];
+          array[i] = array[j];
+          array[j] = temp;
+        }
+
+        let xFrontier = Number(frontierCheck.getAttribute('xCoord'));
+        let yFrontier = Number(frontierCheck.getAttribute('yCoord'));
+
+        if (array[0](xFrontier,yFrontier)) ;
+        else if (array[1](xFrontier,yFrontier)) ;
+        else if (array[2](xFrontier,yFrontier)) ;
+        else if (array[3](xFrontier,yFrontier)) ;
+
+        newCurrent(xFrontier,yFrontier);
+
+        chooseAndExpand();
+      } else {
+        console.log('done');
+      }
+    },20);
+
+  }
+
+  function newCurrent(randomX,randomY) {
+    let firstCheck = document.querySelector('[xCoord="'+randomX.toString()+'"][yCoord="'+randomY.toString()+'"]');
+
+    let firstCheckNorth = document.querySelector('[xCoord="'+randomX.toString()+'"][yCoord="'+(randomY-2).toString()+'"]');
+    if (firstCheckNorth != undefined && firstCheckNorth.getAttribute("set") != "border" && firstCheckNorth.getAttribute("set") != firstSet.toString()) firstCheckNorth.setAttribute("set","frontier");
+    let firstCheckEast = document.querySelector('[xCoord="'+(randomX+2).toString()+'"][yCoord="'+randomY.toString()+'"]');
+    if (firstCheckEast != undefined && firstCheckEast.getAttribute("set") != "border"&& firstCheckEast.getAttribute("set") != firstSet.toString()) firstCheckEast.setAttribute("set","frontier");
+    let firstCheckSouth = document.querySelector('[xCoord="'+randomX.toString()+'"][yCoord="'+(randomY+2).toString()+'"]');
+    if (firstCheckSouth != undefined && firstCheckSouth.getAttribute("set") != "border" && firstCheckSouth.getAttribute("set") != firstSet.toString()) firstCheckSouth.setAttribute("set","frontier");
+    let firstCheckWest = document.querySelector('[xCoord="'+(randomX-2).toString()+'"][yCoord="'+randomY.toString()+'"]');
+    if (firstCheckWest != undefined && firstCheckWest.getAttribute("set") != "border" && firstCheckWest.getAttribute("set") != firstSet.toString()) firstCheckWest.setAttribute("set","frontier");
+
+    firstCheck.checked = false;
+    firstCheck.setAttribute('set',firstSet.toString());
   }
 
   function startPrims() {
     finished = false;
+    let randomX = Math.floor(Math.random() * (SIZEX-1)) + 1;
+    let randomY = Math.floor(Math.random() * (SIZEY-1)) + 1;
+
+    newCurrent(randomX,randomY);
+
     chooseAndExpand();
   }
 
