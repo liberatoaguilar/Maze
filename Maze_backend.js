@@ -681,6 +681,9 @@ function prims() {
         frontierCheck.checked = false;
         frontierCheck.disabled = false;
         frontierCheck.setAttribute("set",firstSet);
+        for (let unchecked of Array.from(document.querySelectorAll('[set="1"]'))){
+          unchecked.checked = false;
+        }
 
         let array = [checkNorth,checkEast,checkSouth,checkWest];
         for (let i = array.length-1; i > 0; i--) {
@@ -704,7 +707,7 @@ function prims() {
       } else {
         console.log('done');
       }
-    },20);
+    },10);
 
   }
 
@@ -713,12 +716,19 @@ function prims() {
 
     let firstCheckNorth = document.querySelector('[xCoord="'+randomX.toString()+'"][yCoord="'+(randomY-2).toString()+'"]');
     if (firstCheckNorth != undefined && firstCheckNorth.getAttribute("set") != "border" && firstCheckNorth.getAttribute("set") != firstSet.toString()) firstCheckNorth.setAttribute("set","frontier");
+    else if (firstCheckNorth && firstCheckNorth.getAttribute("set") == "border") document.querySelector('[xCoord="'+randomX.toString()+'"][yCoord="'+(randomY-1).toString()+'"]').setAttribute("set",firstSet);
+
     let firstCheckEast = document.querySelector('[xCoord="'+(randomX+2).toString()+'"][yCoord="'+randomY.toString()+'"]');
     if (firstCheckEast != undefined && firstCheckEast.getAttribute("set") != "border"&& firstCheckEast.getAttribute("set") != firstSet.toString()) firstCheckEast.setAttribute("set","frontier");
+    else if (firstCheckEast && firstCheckEast.getAttribute("set") == "border") document.querySelector('[xCoord="'+(randomX+1).toString()+'"][yCoord="'+randomY.toString()+'"]').setAttribute("set",firstSet);
+
     let firstCheckSouth = document.querySelector('[xCoord="'+randomX.toString()+'"][yCoord="'+(randomY+2).toString()+'"]');
     if (firstCheckSouth != undefined && firstCheckSouth.getAttribute("set") != "border" && firstCheckSouth.getAttribute("set") != firstSet.toString()) firstCheckSouth.setAttribute("set","frontier");
+    else if (firstCheckSouth && firstCheckSouth.getAttribute("set") == "border") document.querySelector('[xCoord="'+randomX.toString()+'"][yCoord="'+(randomY+1).toString()+'"]').setAttribute("set",firstSet);
+
     let firstCheckWest = document.querySelector('[xCoord="'+(randomX-2).toString()+'"][yCoord="'+randomY.toString()+'"]');
     if (firstCheckWest != undefined && firstCheckWest.getAttribute("set") != "border" && firstCheckWest.getAttribute("set") != firstSet.toString()) firstCheckWest.setAttribute("set","frontier");
+    else if (firstCheckWest && firstCheckWest.getAttribute("set") == "border") document.querySelector('[xCoord="'+(randomX-1).toString()+'"][yCoord="'+randomY.toString()+'"]').setAttribute("set",firstSet);
 
     firstCheck.checked = false;
     firstCheck.setAttribute('set',firstSet.toString());
@@ -726,8 +736,8 @@ function prims() {
 
   function startPrims() {
     finished = false;
-    let randomX = Math.floor(Math.random() * (SIZEX-1)) + 1;
-    let randomY = Math.floor(Math.random() * (SIZEY-1)) + 1;
+    let randomX = Math.floor(Math.random() * (SIZEX)) + 1;
+    let randomY = Math.floor(Math.random() * (SIZEY)) + 1;
 
     newCurrent(randomX,randomY);
 
