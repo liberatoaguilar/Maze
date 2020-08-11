@@ -2,6 +2,7 @@ let b3s1234Button = document.getElementById("b3s1234");
 let b3s12345Button = document.getElementById("b3s12345");
 let recursiveBackButton = document.getElementById("recursiveBacktracker");
 let kruskalsButton = document.getElementById("kruskals");
+let primsButton = document.getElementById("prims");
 
 let wrap = document.getElementById("wrap");
 let copyright = document.getElementById("copyright");
@@ -579,6 +580,53 @@ function kruskals() {
   createChecks();
 }
 
+function prims() {
+  const SIZEY = 23;
+  const SIZEX = 41;
+
+  current = 5;
+
+  let grids = document.querySelector("#grid");
+  for (let child of Array.from(grids.children)){
+    grids.removeChild(child);
+  }
+  let oldNextGen = document.querySelector("button");
+  wrap.removeChild(oldNextGen);
+  let nextGen = document.createElement("button");
+  nextGen.setAttribute("id","next");
+  nextGen.appendChild(document.createTextNode("Go"));
+  wrap.appendChild(nextGen);
+
+  function createChecks() {
+    for (let i = 0; i < SIZEY; i++){
+      let newRow = document.createElement("div");
+          for (let x = 0; x < SIZEX; x++){
+            let newCheck = document.createElement("input");
+            newCheck.type = "checkbox";
+            newCheck.checked = true;
+            newCheck.setAttribute("xCoord",x.toString());
+            newCheck.setAttribute("yCoord",i.toString());
+            newCheck.setAttribute("visited","0");
+            newRow.appendChild(newCheck);
+          }
+      grids.appendChild(newRow);
+    }
+    return;
+  }
+
+  function chooseAndExpand() {
+
+  }
+
+  function startPrims() {
+    finished = false;
+    chooseAndExpand();
+  }
+
+  nextGen.addEventListener('click',startPrims);
+  createChecks();
+}
+
 recursiveBacktracker();
 
 b3s1234Button.addEventListener('click',() => {
@@ -587,6 +635,7 @@ b3s1234Button.addEventListener('click',() => {
     b3s12345Button.setAttribute("selected","0");
     recursiveBackButton.setAttribute("selected","0");
     kruskalsButton.setAttribute("selected","0");
+    primsButton.setAttribute("selected","0");
     b3s1234();
   }
 });
@@ -597,6 +646,7 @@ b3s12345Button.addEventListener('click',() => {
     b3s1234Button.setAttribute("selected","0");
     recursiveBackButton.setAttribute("selected","0");
     kruskalsButton.setAttribute("selected","0");
+    primsButton.setAttribute("selected","0");
     b3s12345();
   }
 });
@@ -607,6 +657,7 @@ recursiveBackButton.addEventListener('click', () => {
     b3s1234Button.setAttribute("selected","0");
     kruskalsButton.setAttribute("selected","0");
     recursiveBackButton.setAttribute("selected","1");
+    primsButton.setAttribute("selected","0");
     recursiveBacktracker();
   }
 });
@@ -617,9 +668,21 @@ kruskalsButton.addEventListener('click', () => {
     b3s1234Button.setAttribute("selected","0");
     recursiveBackButton.setAttribute("selected","0");
     kruskalsButton.setAttribute("selected","1");
+    primsButton.setAttribute("selected","0");
     kruskals();
   }
 });
+
+primsButton.addEventListener('click', () => {
+  if (current != 5 && finished) {
+    b3s12345Button.setAttribute("selected","0");
+    b3s1234Button.setAttribute("selected","0");
+    recursiveBackButton.setAttribute("selected","0");
+    kruskalsButton.setAttribute("selected","0");
+    primsButton.setAttribute("selected","1");
+    prims();
+  }
+})
 
 window.addEventListener("resize", () => {
   copyright.style.top = document.body.clientHeight-copyright.clientHeight;
