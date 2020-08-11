@@ -707,7 +707,7 @@ function prims() {
       } else {
         console.log('done');
       }
-    },10);
+    },40);
 
   }
 
