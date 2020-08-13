@@ -33,3 +33,11 @@
 - The process is repeated until there is only one set left, meaning that there is a solution to the maze.
 - This algorithm creates square mazes that have the traditional "maze" look.
 - More information: http://weblog.jamisbuck.org/2011/1/3/maze-generation-kruskal-s-algorithm.
+
+### Prim's Algorithm
+
+- Chooses a random cell in the grid and then sets the four adjacent cells to 'frontier' cells.
+- A random frontier cell is chosen and becomes a normal cell with adjacent cells also becoming frontier cells.
+- The algorithm continues until there are no more frontier cells left.
+- This generates very square mazes and they expand outward from a single starting point.
+- More information: http://weblog.jamisbuck.org/2011/1/10/maze-generation-prim-s-algorithm.
