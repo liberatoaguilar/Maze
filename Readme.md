@@ -1,6 +1,6 @@
 # Maze Algorithms
 
-## Visit https://liberatoaguilar.github.io/Maze/Maze.html to see *live* demonstrations!
+## Visit https://liberatoaguilar.github.io/Maze/Maze.html to see ***live*** demonstrations!
 
 - Created June 2020
 
