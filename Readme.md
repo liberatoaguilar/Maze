@@ -15,6 +15,10 @@
 - These mazes are very straight-edged and not always solvable.
 - More information: https://en.wikipedia.org/wiki/Maze_generation_algorithm#Cellular_automaton_algorithms.
 
+- Examples:
+![image](https://raw.githubusercontent.com/liberatoaguilar/Maze/master/Images/4.png)
+![image](https://raw.githubusercontent.com/liberatoaguilar/Maze/master/Images/5.png)
+
 ### Recursive Backtracking
 
 - Begins with one cell and chooses a random direction to carve out a maze path.
@@ -25,6 +29,9 @@
 - This maze algorithm generates winding paths in the mazes.
 - More information: https://weblog.jamisbuck.org/2010/12/27/maze-generation-recursive-backtracking.
 
+- Example:
+![image](https://raw.githubusercontent.com/liberatoaguilar/Maze/master/Images/1.png)
+
 ### Kruskal's Algorithm
 
 - Chooses a random cell and direction, then removes a wall in that direction.
@@ -34,6 +41,9 @@
 - This algorithm creates square mazes that have the traditional "maze" look.
 - More information: http://weblog.jamisbuck.org/2011/1/3/maze-generation-kruskal-s-algorithm.
 
+- Example:
+![image](https://raw.githubusercontent.com/liberatoaguilar/Maze/master/Images/2.png)
+
 ### Prim's Algorithm
 
 - Chooses a random cell in the grid and then sets the four adjacent cells to 'frontier' cells.
@@ -41,3 +51,6 @@
 - The algorithm continues until there are no more frontier cells left.
 - This generates very square mazes and they expand outward from a single starting point.
 - More information: http://weblog.jamisbuck.org/2011/1/10/maze-generation-prim-s-algorithm.
+
+- Example:
+![image](https://raw.githubusercontent.com/liberatoaguilar/Maze/master/Images/3.png)
