@@ -8,9 +8,9 @@
 
 - These are cellular automaton algorithms similar to conway's game of life algorithm.
 - B3/S1234 rulestring
-  - If a cell has 1-4 neighbors it survives and if it has exactly 3 neighbors it is born. If it has more 4 or less than 1 neighbor it dies.
+  - If a cell has 1-4 neighbors it survives and if it has exactly 3 neighbors it is born. If it has more than 4 or less than 1 neighbor it dies.
 - B3/S12345 rulestring
-  - If a cell has 1-5 neighbors it survives and if it has exactly 3 neighbors it is born. If it has more 5 or less than 1 neighbor it dies.
+  - If a cell has 1-5 neighbors it survives and if it has exactly 3 neighbors it is born. If it has more than 5 or less than 1 neighbor it dies.
 
 - These mazes are very straight-edged and not always solvable.
 - More information: https://en.wikipedia.org/wiki/Maze_generation_algorithm#Cellular_automaton_algorithms.
@@ -56,3 +56,14 @@
 
 - Example:
 ![image](https://raw.githubusercontent.com/liberatoaguilar/Maze/master/Images/3.png)
+
+### B2/S123
+
+- Another cellular automaton algorithm.
+- B2/S123 rulestring.
+  - If a cell has 1-3 neighbors it survives and if it has exactly 2 neighbors it is born. If it has more than 3 or less than 1 neighbor it dies.
+- Similar to B3/S1234 and B3/S12345 but unlike these two algorithms, B2/S123 actually produces solvable mazes.
+- More information: https://english.rejbrand.se/rejbrand/article.asp?ItemIndex=421.
+
+- Example:
+![image](https://raw.githubusercontent.com/liberatoaguilar/Maze/master/Images/6.png)
