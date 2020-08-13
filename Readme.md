@@ -15,8 +15,10 @@
 - These mazes are very straight-edged and not always solvable.
 - More information: https://en.wikipedia.org/wiki/Maze_generation_algorithm#Cellular_automaton_algorithms.
 
-- Examples:
+- Example B3/S1234:
 ![image](https://raw.githubusercontent.com/liberatoaguilar/Maze/master/Images/4.png)
+
+- Example B3/S12345:
 ![image](https://raw.githubusercontent.com/liberatoaguilar/Maze/master/Images/5.png)
 
 ### Recursive Backtracking
