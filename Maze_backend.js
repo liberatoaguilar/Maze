@@ -773,7 +773,7 @@ function b2s123() {
   const SIZEY = 23;
   const SIZEX = 41;
 
-  const FILL = 20;
+  const FILL = 5;
 
   let grids = document.querySelector("#grid");
   for (let child of Array.from(grids.children)){
