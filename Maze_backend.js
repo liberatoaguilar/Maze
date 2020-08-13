@@ -27,7 +27,14 @@ function b3s1234() {
   for (let child of Array.from(grids.children)){
     grids.removeChild(child);
   }
-  let nextGen = document.querySelector("button");
+  
+  let oldNextGen = document.querySelector("button");
+  wrap.removeChild(oldNextGen);
+  let nextGen = document.createElement("button");
+  nextGen.setAttribute("id","next");
+  nextGen.appendChild(document.createTextNode("Go"));
+  wrap.appendChild(nextGen);
+
   let oldnewdivs = [];
   let doubleold = [];
   let tripleold = [];
@@ -152,7 +159,14 @@ function b3s12345() {
   for (let child of Array.from(grids.children)){
     grids.removeChild(child);
   }
-  let nextGen = document.querySelector("button");
+
+  let oldNextGen = document.querySelector("button");
+  wrap.removeChild(oldNextGen);
+  let nextGen = document.createElement("button");
+  nextGen.setAttribute("id","next");
+  nextGen.appendChild(document.createTextNode("Go"));
+  wrap.appendChild(nextGen);
+
   let oldnewdivs = [];
   let doubleold = [];
   let tripleold = [];
@@ -277,7 +291,12 @@ function recursiveBacktracker() {
   for (let child of Array.from(grids.children)){
     grids.removeChild(child);
   }
-  let nextGen = document.querySelector("button");
+  let oldNextGen = document.querySelector("button");
+  wrap.removeChild(oldNextGen);
+  let nextGen = document.createElement("button");
+  nextGen.setAttribute("id","next");
+  nextGen.appendChild(document.createTextNode("Go"));
+  wrap.appendChild(nextGen);
 
   function createChecks() {
     for (let i = 0; i < SIZEY; i++){
