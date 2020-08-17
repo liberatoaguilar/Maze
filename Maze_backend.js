@@ -179,6 +179,8 @@ function b3s1234() {
 }
 
 function b3s12345() {
+  // Sets current to 2 and defines constants
+
   current = 2;
 
   const SIZEY = 23;
@@ -186,10 +188,14 @@ function b3s12345() {
 
   const FILL = 20;
 
+  // Removes other checks if there are any
+
   let grids = document.querySelector("#grid");
   for (let child of Array.from(grids.children)){
     grids.removeChild(child);
   }
+
+  // Creates new "Go" button to removes any EventListeners
 
   let oldNextGen = document.querySelector("button");
   wrap.removeChild(oldNextGen);
@@ -202,10 +208,14 @@ function b3s12345() {
   let doubleold = [];
   let tripleold = [];
 
+  // Function used to get grids based on x and y
+
   function checkIn(grid,x,y){
     let divs = Array.from(grid.children);
     return Array.from(divs[y].children)[x];
   }
+
+  // Counts the number of neightbords that are next to a certain cell
 
   function neighborCounter(grid,i,x){
     let neighborAliveCount = 0;
@@ -236,6 +246,8 @@ function b3s12345() {
     return neighborAliveCount;
   }
 
+  // The current grid of checks is replaced with a new iteration
+
   function replaceGrid(grid,newDivs){
     let counter = 0;
     let currentDivsList = [];
@@ -258,7 +270,13 @@ function b3s12345() {
     }
   }
 
+  // The first part of this function creates checks and the first randomized grid of checks
+  // The second part of this function is the main function that tests for X number of neighbors and does something based on that number
+
   function updateState(grid){
+
+    //First Part
+
     if (Array.from(grid.children).length == 0){
     for (let i = 0; i < SIZEY; i++){
         let newRow = document.createElement("div");
@@ -277,6 +295,7 @@ function b3s12345() {
       return;
     }
 
+    // Second Part
     let newDivs = [];
 
     for (let i = 0; i < SIZEY; i++){
@@ -302,6 +321,8 @@ function b3s12345() {
 
     replaceGrid(grid,newDivs);
   }
+
+  // Adds event listener to "Go" button
 
   nextGen.addEventListener("click",() => {
     finished = false;
