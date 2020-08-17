@@ -1,9 +1,15 @@
+// Liberato Agular 2020
+
+// Getting the tabs of each algorithm
+
 let b3s1234Button = document.getElementById("b3s1234");
 let b3s12345Button = document.getElementById("b3s12345");
 let b2s123Button = document.getElementById("b2s123");
 let recursiveBackButton = document.getElementById("recursiveBacktracker");
 let kruskalsButton = document.getElementById("kruskals");
 let primsButton = document.getElementById("prims");
+
+// The copyright on the bottom of the page
 
 let wrap = document.getElementById("wrap");
 let copyright = document.getElementById("copyright");
@@ -13,10 +19,16 @@ for (let child of Array.from(menu.children)) {
   child.style.width = document.body.clientWidth/Array.from(menu.children).length;
 }
 
+// Variables used to manage which algorithm is ongoing.
+
 let current = 3;
 let finished = true;
 
+// Each algorithm has its own function
+
 function b3s1234() {
+  // Sets current to 1 and defines constants
+
   current = 1;
 
   const SIZEY = 23;
@@ -24,10 +36,14 @@ function b3s1234() {
 
   const FILL = 20;
 
+  // Removes other checks if there are any
+
   let grids = document.querySelector("#grid");
   for (let child of Array.from(grids.children)){
     grids.removeChild(child);
   }
+
+  // Creates new "Go" button to removes any EventListeners
 
   let oldNextGen = document.querySelector("button");
   wrap.removeChild(oldNextGen);
@@ -40,10 +56,14 @@ function b3s1234() {
   let doubleold = [];
   let tripleold = [];
 
+  // Function used to get grids based on x and y
+
   function checkIn(grid,x,y){
     let divs = Array.from(grid.children);
     return Array.from(divs[y].children)[x];
   }
+
+  // Counts the number of neightbords that are next to a certain cell
 
   function neighborCounter(grid,i,x){
     let neighborAliveCount = 0;
@@ -74,6 +94,8 @@ function b3s1234() {
     return neighborAliveCount;
   }
 
+  // The current grid of checks is replaced with a new iteration
+
   function replaceGrid(grid,newDivs){
     let counter = 0;
     let currentDivsList = [];
@@ -96,7 +118,12 @@ function b3s1234() {
     }
   }
 
+  // The first part of this function creates checks and the first randomized grid of checks
+  // The second part of this function is the main function that tests for X number of neighbors and does something based on that number
+
   function updateState(grid){
+
+    // First part
     if (Array.from(grid.children).length == 0){
     for (let i = 0; i < SIZEY; i++){
         let newRow = document.createElement("div");
@@ -115,6 +142,7 @@ function b3s1234() {
       return;
     }
 
+    // Second part
     let newDivs = [];
 
     for (let i = 0; i < SIZEY; i++){
@@ -140,6 +168,8 @@ function b3s1234() {
 
     replaceGrid(grid,newDivs);
   }
+
+  // Adds event listener to "Go" button
 
   nextGen.addEventListener("click",() => {
     finished = false;
